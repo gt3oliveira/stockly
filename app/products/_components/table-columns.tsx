@@ -5,7 +5,11 @@ import { Product } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import { Circle } from "lucide-react";
 
-export const productTableColumns: ColumnDef<Product>[] = [
+interface ProductTableProps extends Product {
+  status: string;
+}
+
+export const productTableColumns: ColumnDef<ProductTableProps>[] = [
   {
     accessorKey: "name",
     header: "Produto",
