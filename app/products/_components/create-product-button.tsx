@@ -21,14 +21,19 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useProductForm } from "@/data/product";
-import { PlusIcon } from "lucide-react";
+import { Loader2Icon, PlusIcon } from "lucide-react";
+import { useState } from "react";
 import { NumericFormat } from "react-number-format";
 
-export const AddProductButton = () => {
-  const { form, onSubmit } = useProductForm();
+export const CreateProductButton = () => {
+  const [dialogIsOpen, setDialogIsOpen] = useState(false);
+  const { form, onSubmit } = useProductForm({
+    onSuccess: () => setDialogIsOpen(false),
+    onError: () => setDialogIsOpen(false),
+  });
 
   return (
-    <Dialog>
+    <Dialog open={dialogIsOpen} onOpenChange={setDialogIsOpen}>
       <DialogTrigger asChild>
         <Button>
           <PlusIcon />
@@ -41,7 +46,7 @@ export const AddProductButton = () => {
             <DialogHeader>
               <DialogTitle>Criar produto</DialogTitle>
               <DialogDescription>
-                Insira as informações no formulário abaixo.
+                Insira as informações do produto no formulário abaixo.
               </DialogDescription>
             </DialogHeader>
             <FormField
@@ -73,6 +78,7 @@ export const AddProductButton = () => {
                       prefix="R$ "
                       allowNegative={false}
                       customInput={Input}
+                      placeholder="Preço do produto"
                       onValueChange={(value) =>
                         field.onChange(value.floatValue)
                       }
@@ -96,6 +102,7 @@ export const AddProductButton = () => {
                       decimalScale={1}
                       allowNegative={false}
                       customInput={Input}
+                      placeholder="Quantidade de produtos em estoque"
                       onValueChange={(value) =>
                         field.onChange(value.floatValue)
                       }
@@ -113,7 +120,12 @@ export const AddProductButton = () => {
                   Cancelar
                 </Button>
               </DialogClose>
-              <Button type="submit">Salvar</Button>
+              <Button type="submit" disabled={form.formState.isSubmitting}>
+                {form.formState.isSubmitting && (
+                  <Loader2Icon className="animate-spin" />
+                )}
+                Salvar
+              </Button>
             </DialogFooter>
           </form>
         </Form>

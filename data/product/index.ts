@@ -2,13 +2,16 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { productFormSchema } from "./schema";
+import { productFormSchema, ProductsFormSchema } from "./schema";
+import { createProduct } from "@/actions/product/create-product";
 
-type FormSchema = z.infer<typeof productFormSchema>;
+interface ProductFormProps {
+  onSuccess: () => void;
+  onError: () => void;
+}
 
-export function useProductForm() {
-  const form = useForm<FormSchema>({
+export function useProductForm({ onSuccess, onError }: ProductFormProps) {
+  const form = useForm<ProductsFormSchema>({
     resolver: zodResolver(productFormSchema),
     defaultValues: {
       name: "",
@@ -18,8 +21,14 @@ export function useProductForm() {
     shouldUnregister: true,
   });
 
-  function onSubmit(values: FormSchema) {
-    console.log(values);
+  async function onSubmit(values: ProductsFormSchema) {
+    try {
+      await createProduct(values);
+      onSuccess();
+    } catch (error) {
+      console.log(error);
+      onError();
+    }
   }
 
   return {

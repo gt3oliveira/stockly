@@ -11,3 +11,5 @@ export const productFormSchema = z.object({
     message: "A quantidade em estoque é obrigatória.",
   }),
 });
+
+export type ProductsFormSchema = z.infer<typeof productFormSchema>;
