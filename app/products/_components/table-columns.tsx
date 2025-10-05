@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Product } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import { Circle } from "lucide-react";
+import { ActionsDropdownMenu } from "./actions-dropdown-menu";
 
 interface ProductTableProps extends Product {
   status: string;
@@ -37,6 +38,14 @@ export const productTableColumns: ColumnDef<ProductTableProps>[] = [
           {label}
         </Badge>
       );
+    },
+  },
+  {
+    accessorKey: "actions",
+    header: "Ações",
+    cell: (row) => {
+      const product = row.row.original;
+      return <ActionsDropdownMenu productId={product.id} />;
     },
   },
 ];
