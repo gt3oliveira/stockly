@@ -19,15 +19,18 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useProductForm } from "@/data/create-product";
+import { ProductsFormSchema } from "@/data/create-product/schema";
 import { Loader2Icon } from "lucide-react";
 import { NumericFormat } from "react-number-format";
 import { toast } from "sonner";
 
 interface UpsertProductDialogContentProps {
+  defaultValues?: ProductsFormSchema;
   setIsOpen: (isOpen: boolean) => void;
 }
 
 export const UpsertProductDialogContent = ({
+  defaultValues,
   setIsOpen,
 }: UpsertProductDialogContentProps) => {
   const { form, onSubmit } = useProductForm({
@@ -39,14 +42,19 @@ export const UpsertProductDialogContent = ({
       setIsOpen(false);
       toast.error("Ocorreu um erro ao criar o produto.");
     },
+    defaultValues,
   });
+
+  const isEditing = !!defaultValues;
 
   return (
     <DialogContent>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <DialogHeader>
-            <DialogTitle>Criar produto</DialogTitle>
+            <DialogTitle>
+              {isEditing ? "Editar produto" : "Criar produto"}
+            </DialogTitle>
             <DialogDescription>
               Insira as informações do produto no formulário abaixo.
             </DialogDescription>

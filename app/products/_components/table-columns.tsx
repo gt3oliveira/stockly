@@ -45,7 +45,11 @@ export const productTableColumns: ColumnDef<ProductTableProps>[] = [
     header: "Ações",
     cell: (row) => {
       const product = row.row.original;
-      return <ActionsDropdownMenu productId={product.id} />;
+      return (
+        <ActionsDropdownMenu
+          product={{ ...product, price: Number(product.price) }}
+        />
+      );
     },
   },
 ];

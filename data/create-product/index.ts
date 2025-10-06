@@ -3,17 +3,22 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { productFormSchema, ProductsFormSchema } from "./schema";
-import { createProduct } from "@/actions/product/create-product";
+import { upsertProduct } from "@/actions/product/upsert-product";
 
 interface ProductFormProps {
-  onSuccess: () => void;
-  onError: () => void;
+  defaultValues?: ProductsFormSchema;
+  onSuccess?: () => void;
+  onError?: () => void;
 }
 
-export function useProductForm({ onSuccess, onError }: ProductFormProps) {
+export function useProductForm({
+  onSuccess,
+  onError,
+  defaultValues,
+}: ProductFormProps) {
   const form = useForm<ProductsFormSchema>({
     resolver: zodResolver(productFormSchema),
-    defaultValues: {
+    defaultValues: defaultValues ?? {
       name: "",
       price: 0,
       stock: 1,
@@ -21,13 +26,13 @@ export function useProductForm({ onSuccess, onError }: ProductFormProps) {
     shouldUnregister: true,
   });
 
-  async function onSubmit(values: ProductsFormSchema) {
+  async function onSubmit(data: ProductsFormSchema) {
     try {
-      await createProduct(values);
-      onSuccess();
+      await upsertProduct({ ...data, id: defaultValues?.id });
+      onSuccess?.();
     } catch (error) {
       console.log(error);
-      onError();
+      onError?.();
     }
   }
 
