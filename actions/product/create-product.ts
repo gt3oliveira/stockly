@@ -1,5 +1,8 @@
 "use server";
-import { productFormSchema, ProductsFormSchema } from "@/data/product/schema";
+import {
+  productFormSchema,
+  ProductsFormSchema,
+} from "@/data/create-product/schema";
 import { db } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 

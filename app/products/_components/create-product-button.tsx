@@ -20,7 +20,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useProductForm } from "@/data/product";
+import { useProductForm } from "@/data/create-product";
 import { Loader2Icon, PlusIcon } from "lucide-react";
 import { useState } from "react";
 import { NumericFormat } from "react-number-format";
