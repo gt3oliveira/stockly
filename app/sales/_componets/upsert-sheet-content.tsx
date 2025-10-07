@@ -76,15 +76,37 @@ export const UpsertSheetContent = ({
   const onSubmit = (data: FormSchema) => {
     const selectedProduct = products.find((item) => item.id === data.productId);
     if (!selectedProduct) return;
+
     setSelectedProduct((prev) => {
       const productExists = prev.find((item) => item.id === selectedProduct.id);
+
       if (productExists) {
+        const productOutInStock =
+          productExists.quantity + data.quantity > selectedProduct.stock;
+        if (productOutInStock) {
+          form.setError("quantity", {
+            message: "Quantidade indisponível em estoque.",
+          });
+          return prev;
+        }
+
+        form.reset();
         return prev.map((product) =>
           product.id === selectedProduct.id
             ? { ...product, quantity: product.quantity + data.quantity }
             : product,
         );
       }
+
+      const productOutInStock = data.quantity > selectedProduct.stock;
+      if (productOutInStock) {
+        form.setError("quantity", {
+          message: "Quantidade indisponível em estoque.",
+        });
+        return prev;
+      }
+
+      form.reset();
       return [
         ...prev,
         {
@@ -94,7 +116,6 @@ export const UpsertSheetContent = ({
         },
       ];
     });
-    form.reset();
   };
 
   const productsTotal = useMemo(() => {
