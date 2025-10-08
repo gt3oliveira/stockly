@@ -28,7 +28,7 @@ export function useProductForm({
 
   async function onSubmit(data: ProductsFormSchema) {
     try {
-      await upsertProduct({ id: defaultValues?.id, ...data });
+      await upsertProduct({ ...data, id: defaultValues?.id });
       onSuccess?.();
     } catch (error) {
       console.log(error);
