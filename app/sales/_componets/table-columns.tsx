@@ -1,10 +1,9 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { SalesDto } from "@/data/create-sale/schema";
 import { formatCurrency } from "@/helpers/currency";
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontalIcon } from "lucide-react";
+import { SalesDropdownMenu } from "./table-dropdown-menu";
 
 export const saleTableColumns: ColumnDef<SalesDto>[] = [
   {
@@ -35,10 +34,6 @@ export const saleTableColumns: ColumnDef<SalesDto>[] = [
   },
   {
     header: "Ações",
-    cell: () => (
-      <Button variant={"ghost"}>
-        <MoreHorizontalIcon />
-      </Button>
-    ),
+    cell: ({ row: { original: sale } }) => <SalesDropdownMenu sale={sale} />,
   },
 ];

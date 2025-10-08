@@ -16,11 +16,12 @@ import {
   MoreHorizontalIcon,
   Trash2Icon,
 } from "lucide-react";
-import { DeleteDialogContent } from "@/components/delete-dialog-content";
+import { DeleteDialogContent } from "@/app/products/_components/delete-dialog-content";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { UpsertProductDialogContent } from "./upsert-dialog-content";
 import { useState } from "react";
 import { ProductsFormSchema } from "@/data/create-product/schema";
+import { toast } from "sonner";
 
 interface ActionsDropdownMenuProps {
   product: ProductsFormSchema;
@@ -28,6 +29,11 @@ interface ActionsDropdownMenuProps {
 
 export const ActionsDropdownMenu = ({ product }: ActionsDropdownMenuProps) => {
   const [editDialogIsOpen, setEditDialogIsOpen] = useState(false);
+
+  const handleCopyToClipboardClick = () => {
+    navigator.clipboard.writeText(product.id as string);
+    toast.success("ID copiado para a área de transferência!");
+  };
 
   return (
     <AlertDialog>
@@ -39,13 +45,9 @@ export const ActionsDropdownMenu = ({ product }: ActionsDropdownMenuProps) => {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuLabel>Ações</DropdownMenuLabel>
+            <DropdownMenuLabel className="text-center">Ações</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem
-              onClick={() =>
-                navigator.clipboard.writeText(product.id as string)
-              }
-            >
+            <DropdownMenuItem onClick={handleCopyToClipboardClick}>
               <ClipboardCopyIcon />
               Copiar ID
             </DropdownMenuItem>

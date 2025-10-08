@@ -9,7 +9,7 @@ import {
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogTitle,
-} from "./ui/alert-dialog";
+} from "../../../components/ui/alert-dialog";
 import { toast } from "sonner";
 import { useAction } from "next-safe-action/hooks";
 
@@ -38,8 +38,8 @@ export const DeleteDialogContent = ({
       <AlertDialogHeader>
         <AlertDialogTitle>Você tem certeza?</AlertDialogTitle>
         <AlertDialogDescription>
-          Essa ação irá deletar permanentemente. Esta ação não pode ser
-          desfeita.
+          Essa ação irá deletar permanentemente este produto. Esta ação não pode
+          ser desfeita.
         </AlertDialogDescription>
       </AlertDialogHeader>
       <AlertDialogFooter>
