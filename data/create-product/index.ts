@@ -12,9 +12,9 @@ interface ProductFormProps {
 }
 
 export function useProductForm({
+  defaultValues,
   onSuccess,
   onError,
-  defaultValues,
 }: ProductFormProps) {
   const form = useForm<ProductsFormSchema>({
     resolver: zodResolver(productFormSchema),
@@ -28,7 +28,7 @@ export function useProductForm({
 
   async function onSubmit(data: ProductsFormSchema) {
     try {
-      await upsertProduct({ ...data, id: defaultValues?.id });
+      await upsertProduct({ id: defaultValues?.id, ...data });
       onSuccess?.();
     } catch (error) {
       console.log(error);

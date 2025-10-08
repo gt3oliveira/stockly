@@ -21,12 +21,13 @@ import { Input } from "@/components/ui/input";
 import { useProductForm } from "@/data/create-product";
 import { ProductsFormSchema } from "@/data/create-product/schema";
 import { Loader2Icon } from "lucide-react";
+import { Dispatch, SetStateAction } from "react";
 import { NumericFormat } from "react-number-format";
 import { toast } from "sonner";
 
 interface UpsertProductDialogContentProps {
   defaultValues?: ProductsFormSchema;
-  setIsOpen: (isOpen: boolean) => void;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 export const UpsertProductDialogContent = ({
@@ -36,7 +37,7 @@ export const UpsertProductDialogContent = ({
   const { form, onSubmit } = useProductForm({
     onSuccess: () => {
       setIsOpen(false);
-      toast.success("Produto criado com sucesso!");
+      toast.success("Produto salvo com sucesso!");
     },
     onError: () => {
       setIsOpen(false);
