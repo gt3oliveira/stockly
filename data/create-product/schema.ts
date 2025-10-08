@@ -9,7 +9,7 @@ export const productFormSchema = z.object({
   price: z.number().min(0.01, {
     message: "O preco é obrigatório.",
   }),
-  stock: z.number().min(1, {
+  stock: z.number().min(0, {
     message: "A quantidade em estoque é obrigatória.",
   }),
 });
