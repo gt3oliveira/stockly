@@ -1,3 +1,4 @@
+import { Product } from "@prisma/client";
 import { z } from "zod";
 
 export const productFormSchema = z.object({
@@ -14,3 +15,7 @@ export const productFormSchema = z.object({
 });
 
 export type ProductsFormSchema = z.infer<typeof productFormSchema>;
+
+export interface ProductDto extends Product {
+  status: "IN_STOCK" | "OUT_OF_STOCK";
+}

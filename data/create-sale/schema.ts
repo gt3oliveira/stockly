@@ -10,3 +10,11 @@ export const createSaleSchema = z.object({
 });
 
 export type CreateSaleSchema = z.infer<typeof createSaleSchema>;
+
+export interface SalesDto {
+  id: string;
+  productNames: string;
+  totalQtdProducts: number;
+  totalAmount: number;
+  date: Date;
+}

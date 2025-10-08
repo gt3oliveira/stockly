@@ -1,13 +1,6 @@
 import "server-only";
 import { db } from "@/lib/prisma";
-
-export interface SalesDto {
-  id: string;
-  productNames: string;
-  totalQtdProducts: number;
-  totalAmount: number;
-  date: Date;
-}
+import { SalesDto } from "@/data/create-sale/schema";
 
 export const getSales = async (): Promise<SalesDto[]> => {
   const sales = await db.sale.findMany({

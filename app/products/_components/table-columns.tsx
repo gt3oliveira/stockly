@@ -1,16 +1,12 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
-import { Product } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import { Circle } from "lucide-react";
 import { ActionsDropdownMenu } from "./actions-dropdown-menu";
+import { ProductDto } from "@/data/create-product/schema";
 
-interface ProductTableProps extends Product {
-  status: string;
-}
-
-export const productTableColumns: ColumnDef<ProductTableProps>[] = [
+export const productTableColumns: ColumnDef<ProductDto>[] = [
   {
     accessorKey: "name",
     header: "Produto",

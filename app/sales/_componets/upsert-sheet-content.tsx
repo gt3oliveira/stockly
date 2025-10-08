@@ -30,7 +30,6 @@ import {
 } from "@/components/ui/table";
 import { formatCurrency } from "@/helpers/currency";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Product } from "@prisma/client";
 import { CheckIcon, PlusIcon } from "lucide-react";
 import { Dispatch, SetStateAction, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -40,6 +39,7 @@ import { createSale } from "@/actions/sale/create-sale";
 import { useAction } from "next-safe-action/hooks";
 import { toast } from "sonner";
 import { flattenValidationErrors } from "next-safe-action";
+import { ProductDto } from "@/data/create-product/schema";
 
 const formSchema = z.object({
   productId: z.string().uuid({ message: "Selecione um produto." }),
@@ -53,7 +53,7 @@ const formSchema = z.object({
 type FormSchema = z.infer<typeof formSchema>;
 
 interface UpsertSheetContentProps {
-  products: Product[];
+  products: ProductDto[];
   productOptions: ComboboxOption[];
   setOpenSheet: Dispatch<SetStateAction<boolean>>;
 }
