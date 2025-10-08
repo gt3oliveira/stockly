@@ -31,11 +31,11 @@ import {
 import { formatCurrency } from "@/helpers/currency";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckIcon, PlusIcon } from "lucide-react";
-import { Dispatch, SetStateAction, useMemo, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod/v3";
 import { UpsertSaleActionsDropDownMenu } from "./upsert-table-dropdown-menu";
-import { createSale } from "@/actions/sale/create-sale";
+import { upsertSale } from "@/actions/sale/upsert-sale";
 import { useAction } from "next-safe-action/hooks";
 import { toast } from "sonner";
 import { flattenValidationErrors } from "next-safe-action";
@@ -52,12 +52,6 @@ const formSchema = z.object({
 
 type FormSchema = z.infer<typeof formSchema>;
 
-interface UpsertSheetContentProps {
-  products: ProductDto[];
-  productOptions: ComboboxOption[];
-  setOpenSheet: Dispatch<SetStateAction<boolean>>;
-}
-
 interface SelectedProduct {
   id: string;
   name: string;
@@ -65,14 +59,26 @@ interface SelectedProduct {
   quantity: number;
 }
 
+interface UpsertSheetContentProps {
+  saleId?: string;
+  products: ProductDto[];
+  productOptions: ComboboxOption[];
+  defaultSelectProducts?: SelectedProduct[];
+  setOpenSheet: Dispatch<SetStateAction<boolean>>;
+}
+
 export const UpsertSheetContent = ({
+  saleId,
   productOptions,
   products,
+  defaultSelectProducts,
   setOpenSheet,
 }: UpsertSheetContentProps) => {
-  const [selectedProduct, setSelectedProduct] = useState<SelectedProduct[]>([]);
+  const [selectedProduct, setSelectedProduct] = useState<SelectedProduct[]>(
+    defaultSelectProducts ?? [],
+  );
 
-  const { execute: executeCreateSale } = useAction(createSale, {
+  const { execute: executeCreateSale } = useAction(upsertSale, {
     onError: ({ error: { validationErrors } }) => {
       const flattenedErrors = flattenValidationErrors(validationErrors);
       toast.error(flattenedErrors.formErrors[0]);
@@ -83,6 +89,10 @@ export const UpsertSheetContent = ({
       setOpenSheet(false);
     },
   });
+
+  useEffect(() => {
+    setSelectedProduct(defaultSelectProducts ?? []);
+  }, [defaultSelectProducts]);
 
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
@@ -149,7 +159,7 @@ export const UpsertSheetContent = ({
   };
 
   const onSubmitSale = async () => {
-    executeCreateSale({ products: selectedProduct });
+    executeCreateSale({ id: saleId, products: selectedProduct });
   };
 
   return (

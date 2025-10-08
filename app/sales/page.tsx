@@ -13,6 +13,11 @@ export default async function SalesPage() {
     label: product.name,
     value: product.id,
   }));
+  const tableData = sales.map((sale) => ({
+    ...sale,
+    products,
+    productOptions,
+  }));
 
   return (
     <div className="m-6 w-full space-y-8 rounded-lg bg-white p-8">
@@ -25,7 +30,7 @@ export default async function SalesPage() {
         </div>
         <CreateSaleButton productOptions={productOptions} products={products} />
       </div>
-      <DataTable columns={saleTableColumns} data={sales} />
+      <DataTable columns={saleTableColumns} data={tableData} />
     </div>
   );
 }

@@ -1,17 +1,13 @@
 import "server-only";
 import { db } from "@/lib/prisma";
-import { SalesDto } from "@/data/create-sale/schema";
+import { SaleProductDto, SalesDto } from "@/data/create-sale/schema";
 
 export const getSales = async (): Promise<SalesDto[]> => {
   const sales = await db.sale.findMany({
     include: {
       products: {
         include: {
-          product: {
-            select: {
-              name: true,
-            },
-          },
+          product: true,
         },
       },
     },
@@ -30,6 +26,14 @@ export const getSales = async (): Promise<SalesDto[]> => {
     totalAmount: sale.products.reduce(
       (total, product) => total + Number(product.unitPrice) * product.quantity,
       0,
+    ),
+    saleProducts: sale.products.map(
+      (saleProduct): SaleProductDto => ({
+        productId: saleProduct.product.id,
+        productName: saleProduct.product.name,
+        quantity: saleProduct.quantity,
+        unitPrice: Number(saleProduct.unitPrice),
+      }),
     ),
   }));
 };
