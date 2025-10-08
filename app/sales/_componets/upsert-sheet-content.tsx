@@ -150,7 +150,6 @@ export const UpsertSheetContent = ({
 
   const onSubmitSale = async () => {
     executeCreateSale({ products: selectedProduct });
-    // setOpenSheet(false);
   };
 
   return (
