@@ -1,10 +1,19 @@
 import "server-only";
 import { db } from "@/lib/prisma";
 import dayjs from "dayjs";
+import { ProductStatusDto } from "@/data/create-product/schema";
 
 export interface DayTotalRevenue {
   day: string;
   totalRevenue: number;
+}
+
+export interface MostSoldProductsDto {
+  productId: string;
+  name: string;
+  totalSold: number;
+  status: ProductStatusDto;
+  price: number;
 }
 
 interface DashboardDto {
@@ -14,6 +23,7 @@ interface DashboardDto {
   totalStock: number;
   totalProducts: number;
   totalLast14DaysRevenue: DayTotalRevenue[];
+  mostSoldProducts: MostSoldProductsDto[];
 }
 
 export const getDashboard = async (): Promise<DashboardDto> => {
@@ -78,14 +88,39 @@ export const getDashboard = async (): Promise<DashboardDto> => {
   });
   const totalProductsPromise = db.product.count();
 
-  const [totalRevenue, todayRevenue, totalSales, totalStock, totalProducts] =
-    await Promise.all([
-      totalRevenuePromise,
-      todayRevenuePromise,
-      totalSalesPromise,
-      totalStockPromise,
-      totalProductsPromise,
-    ]);
+  const mostSoldProductsPromise = db.$queryRawUnsafe<
+    {
+      productId: string;
+      name: string;
+      totalSold: number;
+      stock: number;
+      price: number;
+    }[]
+  >(`
+      SELECT "Product"."name", SUM("SaleProduct"."quantity") as "totalSold",
+      "Product"."price", "Product"."stock", "Product"."id" as "productId"
+      FROM "SaleProduct"
+      JOIN "Product" ON "Product"."id" = "SaleProduct"."productId"
+      GROUP BY "Product"."name", "Product"."price", "Product"."stock", "Product"."id"
+      ORDER BY "totalSold" DESC
+      LIMIT 5
+  `);
+
+  const [
+    totalRevenue,
+    todayRevenue,
+    totalSales,
+    totalStock,
+    totalProducts,
+    mostSoldProducts,
+  ] = await Promise.all([
+    totalRevenuePromise,
+    todayRevenuePromise,
+    totalSalesPromise,
+    totalStockPromise,
+    totalProductsPromise,
+    mostSoldProductsPromise,
+  ]);
 
   return Promise.resolve({
     totalRevenue: totalRevenue[0].totalRevenue || 0,
@@ -94,5 +129,9 @@ export const getDashboard = async (): Promise<DashboardDto> => {
     totalStock: totalStock._sum.stock || 0,
     totalProducts,
     totalLast14DaysRevenue,
+    mostSoldProducts: mostSoldProducts.map((product) => ({
+      ...product,
+      status: product.stock > 0 ? "IN_STOCK" : "OUT_OF_STOCK",
+    })),
   });
 };
