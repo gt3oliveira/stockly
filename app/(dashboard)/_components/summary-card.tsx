@@ -1,23 +1,41 @@
+import { cn } from "@/lib/utils";
+
 interface SummaryCardProps {
   children: React.ReactNode;
+  className?: string;
 }
 
-export const SummaryCardIcon = ({ children }: SummaryCardProps) => {
+export const SummaryCardIcon = ({ children, className }: SummaryCardProps) => {
   return (
-    <div className="mb-2 flex size-9 items-center justify-center rounded-md bg-emerald-500/10 text-emerald-500">
+    <div
+      className={cn(
+        "mb-2 flex size-9 items-center justify-center rounded-md bg-emerald-500/10 text-emerald-500",
+        className,
+      )}
+    >
       {children}
     </div>
   );
 };
 
-export const SummaryCardTitle = ({ children }: SummaryCardProps) => {
-  return <p className="text-sm font-medium text-slate-500">{children}</p>;
+export const SummaryCardTitle = ({ children, className }: SummaryCardProps) => {
+  return (
+    <p className={cn("text-sm font-medium text-slate-500", className)}>
+      {children}
+    </p>
+  );
 };
 
-export const SummaryCardValue = ({ children }: SummaryCardProps) => {
-  return <p className="text-2xl font-semibold text-slate-900">{children}</p>;
+export const SummaryCardValue = ({ children, className }: SummaryCardProps) => {
+  return (
+    <p className={cn("text-2xl font-semibold text-slate-900", className)}>
+      {children}
+    </p>
+  );
 };
 
-export const SummaryCard = ({ children }: SummaryCardProps) => {
-  return <div className="rounded-xl bg-white p-6">{children}</div>;
+export const SummaryCard = ({ children, className }: SummaryCardProps) => {
+  return (
+    <div className={cn("rounded-xl bg-white p-6", className)}>{children}</div>
+  );
 };
