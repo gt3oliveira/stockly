@@ -8,7 +8,7 @@ import {
   HeaderRight,
   HeaderSubtitle,
   HeaderTitle,
-} from "@/components/header";
+} from "@/app/_components/header";
 
 export default async function ProductsPage() {
   const products = await getProducts();
