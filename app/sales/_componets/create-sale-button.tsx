@@ -24,7 +24,7 @@ export const CreateSaleButton = (props: CreateSaleButtonProps) => {
           Nova Venda
         </Button>
       </SheetTrigger>
-      <UpsertSheetContent {...props} setOpenSheet={setOpenSheet} />
+      <UpsertSheetContent setOpenSheet={setOpenSheet} {...props} />
     </Sheet>
   );
 };
