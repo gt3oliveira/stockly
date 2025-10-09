@@ -7,6 +7,7 @@ export const getProducts = async (): Promise<ProductDto[]> => {
 
   return products.map((product) => ({
     ...product,
+    price: Number(product.price),
     status: product.stock > 0 ? "IN_STOCK" : "OUT_OF_STOCK",
   }));
 };

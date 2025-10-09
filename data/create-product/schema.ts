@@ -16,6 +16,8 @@ export const productFormSchema = z.object({
 
 export type ProductsFormSchema = z.infer<typeof productFormSchema>;
 
-export interface ProductDto extends Product {
-  status: "IN_STOCK" | "OUT_OF_STOCK";
+type ProductStatusDto = "IN_STOCK" | "OUT_OF_STOCK";
+export interface ProductDto extends Omit<Product, "price"> {
+  price: number;
+  status: ProductStatusDto;
 }
