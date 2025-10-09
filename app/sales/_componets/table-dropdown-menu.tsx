@@ -1,5 +1,3 @@
-"use client";
-
 import { AlertDialog, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import {
