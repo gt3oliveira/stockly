@@ -77,6 +77,7 @@ export const SalesDropdownMenu = ({
         saleId={sale.id}
         productOptions={productOptions}
         products={products}
+        isOpenSheet={upsertSheetIsOpen}
         setOpenSheet={setUpsertSheetIsOpen}
         defaultSelectProducts={sale.saleProducts.map((saleProduct) => ({
           id: saleProduct.productId,

@@ -64,6 +64,7 @@ interface UpsertSheetContentProps {
   products: ProductDto[];
   productOptions: ComboboxOption[];
   defaultSelectProducts?: SelectedProduct[];
+  isOpenSheet: boolean;
   setOpenSheet: Dispatch<SetStateAction<boolean>>;
 }
 
@@ -72,6 +73,7 @@ export const UpsertSheetContent = ({
   productOptions,
   products,
   defaultSelectProducts,
+  isOpenSheet,
   setOpenSheet,
 }: UpsertSheetContentProps) => {
   const [selectedProduct, setSelectedProduct] = useState<SelectedProduct[]>(
@@ -90,10 +92,6 @@ export const UpsertSheetContent = ({
     },
   });
 
-  useEffect(() => {
-    setSelectedProduct(defaultSelectProducts ?? []);
-  }, [defaultSelectProducts]);
-
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -102,6 +100,17 @@ export const UpsertSheetContent = ({
     },
     shouldUnregister: true,
   });
+
+  useEffect(() => {
+    setSelectedProduct(defaultSelectProducts ?? []);
+  }, [defaultSelectProducts]);
+
+  useEffect(() => {
+    if (!isOpenSheet) {
+      form.reset();
+      setSelectedProduct([]);
+    }
+  }, [form, isOpenSheet]);
 
   const onSubmit = (data: FormSchema) => {
     const selectedProduct = products.find((item) => item.id === data.productId);
