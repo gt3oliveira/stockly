@@ -14,7 +14,7 @@ export default async function ProductsPage() {
   const products = await getProducts();
 
   return (
-    <div className="m-6 w-full space-y-8 rounded-lg bg-white p-8">
+    <div className="m-6 w-full space-y-8 overflow-auto rounded-lg bg-white p-8">
       <Header>
         <HeaderLeft>
           <HeaderSubtitle>Gestão de produtos</HeaderSubtitle>
@@ -24,10 +24,7 @@ export default async function ProductsPage() {
           <CreateProductButton />
         </HeaderRight>
       </Header>
-      <DataTable
-        columns={productTableColumns}
-        data={JSON.parse(JSON.stringify(products))}
-      />
+      <DataTable columns={productTableColumns} data={products} />
     </div>
   );
 }
