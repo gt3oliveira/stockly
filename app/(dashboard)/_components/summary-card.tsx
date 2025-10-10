@@ -9,7 +9,7 @@ export const SummaryCardIcon = ({ children, className }: SummaryCardProps) => {
   return (
     <div
       className={cn(
-        "mb-2 flex size-9 items-center justify-center rounded-md bg-emerald-500/10 text-emerald-500",
+        "mb-2 flex size-9 items-center justify-center rounded-md bg-slate-500/10 text-slate-500",
         className,
       )}
     >
