@@ -10,11 +10,7 @@ import {
   SummaryCardTitle,
   SummaryCardValue,
 } from "./_components/summary-card";
-import {
-  CircleDollarSign,
-  PackageIcon,
-  ShoppingBasketIcon,
-} from "lucide-react";
+import { PackageIcon, ShoppingBasketIcon } from "lucide-react";
 import { getDashboard } from "@/data-access/dashboard/get-dashboard";
 import { RevenueChart } from "./_components/revenue-chart";
 import { MostSoldProduct } from "./_components/most-sold-product-item";
@@ -22,11 +18,11 @@ import { TotalRevenueCard } from "./_components/total-revenue-card";
 import { Suspense } from "react";
 import { SkeletonCard } from "./_components/summary-card";
 import { TodayRevenueCard } from "./_components/today-revenue-card";
+import { TotalSalesCard } from "./_components/total-sales-card";
 
 export default async function Home() {
   const {
     totalProducts,
-    totalSales,
     totalStock,
     totalLast14DaysRevenue,
     mostSoldProducts,
@@ -52,13 +48,9 @@ export default async function Home() {
       </div>
 
       <div className="grid grid-cols-3 gap-6">
-        <SummaryCard>
-          <SummaryCardIcon>
-            <CircleDollarSign />
-          </SummaryCardIcon>
-          <SummaryCardTitle>Vendas Totais</SummaryCardTitle>
-          <SummaryCardValue>{totalSales}</SummaryCardValue>
-        </SummaryCard>
+        <Suspense fallback={<SkeletonCard />}>
+          <TotalSalesCard />
+        </Suspense>
 
         <SummaryCard>
           <SummaryCardIcon>
