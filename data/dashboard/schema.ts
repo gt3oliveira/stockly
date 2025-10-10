@@ -1,6 +1,6 @@
 import { ProductStatusDto } from "../create-product/schema";
 
-export interface DayTotalRevenue {
+export interface DayTotalRevenueDto {
   day: string;
   totalRevenue: number;
 }

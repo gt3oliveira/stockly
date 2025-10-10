@@ -1,16 +1,16 @@
 import "server-only";
 import dayjs from "dayjs";
 import { db } from "@/lib/prisma";
-import { DayTotalRevenue } from "@/data/dashboard/schema";
+import { DayTotalRevenueDto } from "@/data/dashboard/schema";
 
-export const Last14DaysRevenue = async (): Promise<DayTotalRevenue[]> => {
+export const Last14DaysRevenue = async (): Promise<DayTotalRevenueDto[]> => {
   const today = dayjs().endOf("day").toDate();
   const last14Days = [13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0].map(
     (day) => {
       return dayjs(today).subtract(day, "day");
     },
   );
-  const totalLast14DaysRevenue: DayTotalRevenue[] = [];
+  const totalLast14DaysRevenue: DayTotalRevenueDto[] = [];
 
   for (const day of last14Days) {
     const dayTotalRevenue = await db.$queryRawUnsafe<
