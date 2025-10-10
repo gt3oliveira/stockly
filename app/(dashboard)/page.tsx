@@ -4,7 +4,6 @@ import {
   HeaderSubtitle,
   HeaderTitle,
 } from "@/app/_components/header";
-import { getDashboard } from "@/data-access/dashboard/get-dashboard";
 import { RevenueChart } from "./_components/revenue-chart";
 import { MostSoldProduct } from "./_components/most-sold-product-item";
 import { TotalRevenueCard } from "./_components/total-revenue-card";
@@ -16,9 +15,10 @@ import { TotalStockCard } from "./_components/total-stock-card";
 import { TotalProductsCard } from "./_components/total-products-card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Last14DaysRevenue } from "@/data-access/dashboard/get-last-14-days-revenue";
+import { getMostSoldProducts } from "@/data-access/dashboard/get-most-sold-products";
 
 export default async function Home() {
-  const { mostSoldProducts } = await getDashboard();
+  const mostSoldProducts = await getMostSoldProducts();
   const totalLast14DaysRevenue = await Last14DaysRevenue();
 
   return (
