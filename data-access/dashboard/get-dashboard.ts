@@ -17,7 +17,6 @@ export interface MostSoldProductsDto {
 }
 
 interface DashboardDto {
-  totalProducts: number;
   totalLast14DaysRevenue: DayTotalRevenue[];
   mostSoldProducts: MostSoldProductsDto[];
 }
@@ -51,8 +50,6 @@ export const getDashboard = async (): Promise<DashboardDto> => {
     });
   }
 
-  const totalProductsPromise = db.product.count();
-
   const mostSoldProductsPromise = db.$queryRawUnsafe<
     {
       productId: string;
@@ -71,13 +68,9 @@ export const getDashboard = async (): Promise<DashboardDto> => {
       LIMIT 5
   `);
 
-  const [totalProducts, mostSoldProducts] = await Promise.all([
-    totalProductsPromise,
-    mostSoldProductsPromise,
-  ]);
+  const [mostSoldProducts] = await Promise.all([mostSoldProductsPromise]);
 
   return Promise.resolve({
-    totalProducts,
     totalLast14DaysRevenue,
     mostSoldProducts: mostSoldProducts.map((product) => ({
       ...product,

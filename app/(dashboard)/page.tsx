@@ -4,13 +4,6 @@ import {
   HeaderSubtitle,
   HeaderTitle,
 } from "@/app/_components/header";
-import {
-  SummaryCard,
-  SummaryCardIcon,
-  SummaryCardTitle,
-  SummaryCardValue,
-} from "./_components/summary-card";
-import { ShoppingBasketIcon } from "lucide-react";
 import { getDashboard } from "@/data-access/dashboard/get-dashboard";
 import { RevenueChart } from "./_components/revenue-chart";
 import { MostSoldProduct } from "./_components/most-sold-product-item";
@@ -20,10 +13,10 @@ import { SkeletonCard } from "./_components/summary-card";
 import { TodayRevenueCard } from "./_components/today-revenue-card";
 import { TotalSalesCard } from "./_components/total-sales-card";
 import { TotalStockCard } from "./_components/total-stock-card";
+import { TotalProductsCard } from "./_components/total-products-card";
 
 export default async function Home() {
-  const { totalProducts, totalLast14DaysRevenue, mostSoldProducts } =
-    await getDashboard();
+  const { totalLast14DaysRevenue, mostSoldProducts } = await getDashboard();
 
   return (
     <div className="m-6 flex w-full flex-col space-y-6 rounded-lg">
@@ -53,13 +46,9 @@ export default async function Home() {
           <TotalStockCard />
         </Suspense>
 
-        <SummaryCard>
-          <SummaryCardIcon>
-            <ShoppingBasketIcon />
-          </SummaryCardIcon>
-          <SummaryCardTitle>Produtos</SummaryCardTitle>
-          <SummaryCardValue>{totalProducts}</SummaryCardValue>
-        </SummaryCard>
+        <Suspense fallback={<SkeletonCard />}>
+          <TotalProductsCard />
+        </Suspense>
       </div>
 
       <div className="grid min-h-0 grid-cols-[minmax(0,2.5fr)_minmax(0,1fr)] gap-6">
