@@ -6,7 +6,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { DayTotalRevenue } from "@/data-access/dashboard/get-dashboard";
+import { DayTotalRevenue } from "@/data/dashboard/schema";
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 
 const chartConfig: ChartConfig = {
