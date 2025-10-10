@@ -6,14 +6,17 @@ import {
 } from "@/app/_components/header";
 import { TotalRevenueCard } from "./_components/total-revenue-card";
 import { Suspense } from "react";
-import { SkeletonCard } from "./_components/summary-card";
 import { TodayRevenueCard } from "./_components/today-revenue-card";
 import { TotalSalesCard } from "./_components/total-sales-card";
 import { TotalStockCard } from "./_components/total-stock-card";
 import { TotalProductsCard } from "./_components/total-products-card";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Last14DaysRevenueCard } from "./_components/last-14-days-revenue-card";
 import { MostSoldProductCard } from "./_components/most-sold-product-card";
+import {
+  SkeletonGraphic,
+  SkeletonSales,
+  SkeletonCard,
+} from "./_components/dashboard-skeleton";
 
 export default async function Home() {
   return (
@@ -50,10 +53,10 @@ export default async function Home() {
       </div>
 
       <div className="grid min-h-0 grid-cols-[minmax(0,2.5fr)_minmax(0,1fr)] gap-6">
-        <Suspense fallback={<Skeleton className="h-full w-full rounded-xl" />}>
+        <Suspense fallback={<SkeletonGraphic />}>
           <Last14DaysRevenueCard />
         </Suspense>
-        <Suspense fallback={<Skeleton className="h-40 w-full rounded-xl" />}>
+        <Suspense fallback={<SkeletonSales />}>
           <MostSoldProductCard />
         </Suspense>
       </div>
