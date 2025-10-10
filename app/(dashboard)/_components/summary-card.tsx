@@ -1,3 +1,4 @@
+import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 
 interface SummaryCardProps {
@@ -37,5 +38,17 @@ export const SummaryCardValue = ({ children, className }: SummaryCardProps) => {
 export const SummaryCard = ({ children, className }: SummaryCardProps) => {
   return (
     <div className={cn("rounded-xl bg-white p-6", className)}>{children}</div>
+  );
+};
+
+export const SkeletonCard = () => {
+  return (
+    <Skeleton className="rounded-xl bg-white p-6">
+      <div className="space-y-2">
+        <Skeleton className="mb-2 size-9" />
+        <Skeleton className="h-[14px] w-[100px]" />
+        <Skeleton className="h-6 w-[200px]" />
+      </div>
+    </Skeleton>
   );
 };
